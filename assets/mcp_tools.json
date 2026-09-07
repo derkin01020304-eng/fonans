@@ -1,0 +1,770 @@
+[
+  {
+    "name": "get_balance",
+    "description": "Баланс, доступные средства и свободный бюджет на 30 дней, в минимальных единицах валюты.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "get_summary",
+    "description": "Сводка доходов, расходов и накоплений за период.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "day",
+            "week",
+            "month",
+            "year",
+            "all"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "get_transactions",
+    "description": "Операции. from включительно, to исключительно. Пагинация.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "search_transactions",
+    "description": "Поиск по магазину, категории, источнику и комментарию.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "query": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "add_income",
+    "description": "Добавить доход. amountMinor: копейки для RUB. requestId сохраняйте при повторе.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "amountMinor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99999999999999
+        },
+        "accountId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "merchant": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "source": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "workMinutes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10080
+        }
+      },
+      "required": [
+        "requestId",
+        "amountMinor",
+        "accountId"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "add_expense",
+    "description": "Добавить расход. amountMinor: копейки для RUB. requestId сохраняйте при повторе.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "amountMinor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99999999999999
+        },
+        "accountId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "merchant": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "source": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "workMinutes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10080
+        }
+      },
+      "required": [
+        "requestId",
+        "amountMinor",
+        "accountId"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "add_debt",
+    "description": "Добавить существующий долг. Не изменяет остатки денежных счетов.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "iOwe",
+            "owedToMe"
+          ]
+        },
+        "amountMinor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99999999999999
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "due": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "requestId",
+        "name",
+        "direction",
+        "amountMinor",
+        "due"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "update_debt",
+    "description": "Изменить описание/срок долга или погасить paymentMinor со счёта accountId.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "due": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "paymentMinor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99999999999999
+        },
+        "accountId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        }
+      },
+      "required": [
+        "requestId",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "get_debts",
+    "description": "Долги, остатки и статусы.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "add_credit",
+    "description": "Добавить существующий кредит. annualRateBps: 100 = 1%. Не меняет денежный баланс.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "bank": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "amountMinor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99999999999999
+        },
+        "remainingMinor": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 99999999999999
+        },
+        "annualRateBps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "monthlyMinor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99999999999999
+        },
+        "start": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "nextPayment": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        }
+      },
+      "required": [
+        "requestId",
+        "name",
+        "bank",
+        "amountMinor",
+        "annualRateBps",
+        "monthlyMinor",
+        "start",
+        "end",
+        "nextPayment"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "get_credits",
+    "description": "Кредиты и оценка процентов при фиксированном платеже.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "add_savings",
+    "description": "Перевод между обычным и накопительным счётом, не расход. Для снятия fromAccountId — накопительный.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "amountMinor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99999999999999
+        },
+        "fromAccountId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "toAccountId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "goalId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "requestId",
+        "amountMinor",
+        "fromAccountId",
+        "toAccountId"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "create_goal",
+    "description": "Создать финансовую цель.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "targetMinor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99999999999999
+        },
+        "due": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        }
+      },
+      "required": [
+        "requestId",
+        "name",
+        "targetMinor",
+        "due"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "update_goal",
+    "description": "Изменить название, сумму или дату цели. Накопления меняйте через add_savings.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "targetMinor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99999999999999
+        },
+        "due": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        }
+      },
+      "required": [
+        "requestId",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "get_goals",
+    "description": "Цели, накопленная сумма, остаток и необходимая сумма в день.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "get_upcoming_payments",
+    "description": "Ближайшие платежи, долги и кредиты, включая просроченные.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "enum": [
+            "RUB",
+            "USD",
+            "EUR"
+          ]
+        },
+        "days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 365
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  }
+]

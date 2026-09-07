@@ -1,0 +1,23 @@
+# Generated Flutter and platform build output
+.dart_tool/
+build/
+coverage/
+.flutter-plugins
+.flutter-plugins-dependencies
+android/.gradle/
+android/.cxx/
+android/local.properties
+android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
+*.iml
+.idea/
+# Local keys and user finance data
+android/key.properties
+*.jks
+*.keystore
+*.db
+*.db-wal
+*.db-shm
+*.dfbackup
+.env
+__pycache__/
+*.pyc

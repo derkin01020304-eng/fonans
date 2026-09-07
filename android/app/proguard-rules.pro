@@ -1,0 +1,5 @@
+-keep class net.sqlcipher.** { *; }
+-keep class net.zetetic.** { *; }
+-keep class app.derk.finance.ReminderReceiver { *; }
+-keep class app.derk.finance.BootReceiver { *; }
+-keep class app.derk.finance.BankNotificationListener { *; }
