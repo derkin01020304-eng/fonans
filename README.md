@@ -2,9 +2,9 @@
 
 Android MVP личного финансового помощника на Flutter. Полный исходный проект: работающий офлайн-учёт, финансовая панель, CRUD, диаграммы, цели, обязательства, импорт выписок, зашифрованные резервные копии, BankProvider, FinanceAssistantAPI и локальный MCP-сервер.
 
-**Статус:** исходники и Flutter-тесты. Установочный APK в комплект не входит: в среде разработки не был доступен Android SDK. Проверка нативных функций на Android остаётся отдельным этапом; точные результаты — в [VERIFICATION.md](VERIFICATION.md).
+**Статус:** APK 0.1.1+2 собран в [GitHub Actions](https://github.com/derkin01020304-eng/fonans/actions/runs/34163728654). Пройдены 44 Flutter-теста и нативная проверка SQLCipher/Keystore на эмуляторе Android API 35. APK доступен в артефакте `derk-finance-apk`; точные результаты и контрольная сумма — в [VERIFICATION.md](VERIFICATION.md).
 
-**Версия 0.1.1+2:** исправлен Android-вызов настройки SQLite при запуске, разрешены скриншоты, добавлен копируемый код ошибки. Подробности — [CHANGELOG.md](CHANGELOG.md). Исправленная APK-сборка пока не выполнена.
+**Версия 0.1.1+2:** исправлен Android-вызов настройки SQLite при запуске, разрешены скриншоты, добавлен копируемый код ошибки. Подробности — [CHANGELOG.md](CHANGELOG.md).
 
 ![Финансовая панель](docs/previews/dashboard_light.png)
 
@@ -51,7 +51,7 @@ Android MVP личного финансового помощника на Flutte
 
     flutter build appbundle --release
 
-Workflow `.github/workflows/android.yml` выполняет анализ, тесты, нативную проверку SQLCipher/Keystore на эмуляторе Android API 35 и сборку APK в GitHub Actions, затем сохраняет APK как artifact. Для его запуска загрузите проект в свой GitHub-репозиторий и откройте Actions → Android MVP → Run workflow. Workflow подготовлен, удалённая сборка из этой среды не запускалась.
+Workflow `.github/workflows/android.yml` выполняет анализ, тесты, нативную проверку SQLCipher/Keystore на эмуляторе Android API 35 и сборку APK в GitHub Actions, затем сохраняет APK как artifact на 14 дней. Проверенный запуск: [34163728654](https://github.com/derkin01020304-eng/fonans/actions/runs/34163728654). Для повторной сборки откройте Actions → Android MVP → Run workflow.
 
 ## Что реализовано
 
